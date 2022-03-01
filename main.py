@@ -9,9 +9,10 @@
 # TODO 5.2: Implement collision detection between ball game area border
 # TODO 6: Implement scoring
 # TODO 6.1: Implement game over on score 10
-
+import time
 from turtle import Screen
 from paddle import Paddle
+from ball import Ball
 
 game_area = Screen()
 game_area.title("Pong")
@@ -20,14 +21,18 @@ game_area.bgcolor("black")
 game_area.tracer(0)
 game_area.listen()
 
-player_paddle = Paddle("RIGHT")
-computer_paddle = Paddle("LEFT")
-game_area.onkey(player_paddle.move_up, "Up")
-game_area.onkey(player_paddle.move_down, "Down")
+player1_paddle = Paddle("LEFT")
+player2_paddle = Paddle("RIGHT")
+game_area.onkey(player1_paddle.move_up, "Up")
+game_area.onkey(player1_paddle.move_down, "Down")
+game_area.onkey(player2_paddle.move_up, "w")
+game_area.onkey(player2_paddle.move_down, "s")
+ball = Ball()
 
 game_on = True
 while game_on:
     game_area.update()
+    time.sleep(0.1)
+    ball.move()
 
-game_area.update()
 game_area.exitonclick()
