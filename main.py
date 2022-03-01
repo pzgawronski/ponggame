@@ -23,16 +23,27 @@ game_area.listen()
 
 player1_paddle = Paddle("LEFT")
 player2_paddle = Paddle("RIGHT")
-game_area.onkey(player1_paddle.move_up, "Up")
-game_area.onkey(player1_paddle.move_down, "Down")
-game_area.onkey(player2_paddle.move_up, "w")
-game_area.onkey(player2_paddle.move_down, "s")
+game_area.onkey(player1_paddle.move_up, "w")
+game_area.onkey(player1_paddle.move_down, "s")
+game_area.onkey(player2_paddle.move_up, "Up")
+game_area.onkey(player2_paddle.move_down, "Down")
 ball = Ball()
 
 game_on = True
 while game_on:
     game_area.update()
-    time.sleep(0.1)
+    time.sleep(0.05)
     ball.move()
+
+    # Detect collision with walls
+    if ball.ycor() > 280 or ball.ycor() < -280:
+        # Bounce
+        ball.bounce_y()
+
+    # Detect collision with paddles
+    if (ball.distance(player2_paddle) < 50 and ball.xcor() > 320) \
+            or (ball.distance(player1_paddle) < 50 and ball.xcor() < -320):
+        # Bounce
+        ball.bounce_x()
 
 game_area.exitonclick()
