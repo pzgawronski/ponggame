@@ -13,6 +13,16 @@ import time
 from turtle import Screen
 from paddle import Paddle
 from ball import Ball
+from scoreboard import Scoreboard
+
+DEFAULT_SPEED = 0.05
+
+
+def end_round():
+    ball.reset_position()
+    ball.reset_speed()
+    game_scoreboard.update_scoreboard()
+
 
 game_area = Screen()
 game_area.title("Pong")
@@ -20,6 +30,8 @@ game_area.setup(width=800, height=600)
 game_area.bgcolor("black")
 game_area.tracer(0)
 game_area.listen()
+
+game_scoreboard = Scoreboard()
 
 player1_paddle = Paddle("LEFT")
 player2_paddle = Paddle("RIGHT")
@@ -32,7 +44,7 @@ ball = Ball()
 game_on = True
 while game_on:
     game_area.update()
-    time.sleep(0.05)
+    time.sleep(DEFAULT_SPEED)
     ball.move()
 
     # Detect collision with walls
@@ -45,13 +57,19 @@ while game_on:
             or (ball.distance(player1_paddle) < 50 and ball.xcor() < -320):
         # Bounce
         ball.bounce_x()
+        # Ball speed up
+        ball.accelerate()
 
-    # Paddle misses
+    # P2 paddle misses
     if ball.xcor() > 380:
-        ball.reset_position()
+        game_scoreboard.p1_point()
+        end_round()
 
+
+    # P1 paddle misses
     if ball.xcor() < -380:
-        ball.reset_position()
+        game_scoreboard.p2_point()
+        end_round()
 
 
 game_area.exitonclick()
