@@ -1,4 +1,7 @@
 from turtle import Turtle
+import time
+
+ROUND_COOLDOWN = 0.5
 
 
 class Ball(Turtle):
@@ -8,7 +11,7 @@ class Ball(Turtle):
         self.penup()
         self.shape("circle")
         self.color("white")
-        self.goto(0,0)
+        self.goto(0, 0)
         self.x_move = 10
         self.y_move = 10
 
@@ -22,3 +25,8 @@ class Ball(Turtle):
 
     def bounce_x(self):
         self.x_move *= -1
+
+    def reset_position(self):
+        self.goto(0, 0)
+        time.sleep(ROUND_COOLDOWN)
+        self.bounce_x()

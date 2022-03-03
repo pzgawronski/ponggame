@@ -46,4 +46,12 @@ while game_on:
         # Bounce
         ball.bounce_x()
 
+    # Paddle misses
+    if ball.xcor() > 380:
+        ball.reset_position()
+
+    if ball.xcor() < -380:
+        ball.reset_position()
+
+
 game_area.exitonclick()
